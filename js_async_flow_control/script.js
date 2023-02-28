@@ -13,7 +13,8 @@ In sintesi:
 const api_base_url = "https://jsonplaceholder.typicode.com";
 const post_id = 100;
 
-function getPost(id, successCb, errorCb) {
+// 1. callbacks pattern
+/* function getPost(id, successCb, errorCb) {
   fetch(api_base_url + "/posts/" + id)
     .then((response) => response.json())
     .then((data) => successCb(data))
@@ -46,3 +47,30 @@ getPost(
     console.error(error);
   }
 );
+*/
+
+// 2. promise pattern
+function getPost(id) {
+  return fetch(api_base_url + "/posts/" + id).then((response) =>
+    response.json()
+  );
+}
+function getUser(id) {
+  return fetch(api_base_url + "/users/" + id).then((response) =>
+    response.json()
+  );
+}
+
+const data = {};
+getPost(post_id)
+  .then((post) => {
+    data.post = post;
+    return getUser(post.userId);
+  })
+  .then((user) => {
+    data.user = user;
+    console.log(data);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
