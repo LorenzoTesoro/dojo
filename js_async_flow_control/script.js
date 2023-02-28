@@ -50,7 +50,7 @@ getPost(
 */
 
 // 2. promise pattern
-function getPost(id) {
+/* function getPost(id) {
   return fetch(api_base_url + "/posts/" + id).then((response) =>
     response.json()
   );
@@ -73,4 +73,24 @@ getPost(post_id)
   })
   .catch((error) => {
     console.error(error);
-  });
+  }); */
+
+// 3. async-await
+async function getData(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
+
+async function init() {
+  try {
+    const post = await getData(api_base_url + "/posts/" + post_id);
+    const user = await getData(api_base_url + "/users/" + post.userId);
+    console.log("Post:", post);
+    console.log("User:", user);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+init();
